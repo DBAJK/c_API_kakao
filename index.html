@@ -21,9 +21,9 @@ var mapContainer = document.getElementById('map'), // 지도를 표시할 div
 var map = new kakao.maps.Map(mapContainer, mapOption); 
 
 var markerPos = new kakao.maps.LatLng(mapContainer, mapOption);
-var marker = new kakao.maps.Marker(
-    {position:markerPos}
-)
+var marker = new kakao.maps.Marker({
+    position: markerPos
+});
 function setCenter(lat,lng){
     marker.setMap(null)
     var mp = new kakao.maps.LatLng(lat,lng)
