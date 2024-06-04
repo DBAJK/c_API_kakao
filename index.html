@@ -32,12 +32,12 @@ function setCenter(lat,lng){
     marker.setMap(map)
 }
 var iwContent = '<div style="padding:5px;">Hello World!</div>',
-    iwPosition = kakao.maps.LatLng(mapOption.center.La, mapOption.center.Ma),
+ //   iwPosition = marker,    //kakao.maps.LatLng(mapOption.center.La, mapOption.center.Ma),
     iwRemoveable = true; // removeable 속성을 ture 로 설정하면 인포윈도우를 닫을 수 있는 x버튼이 표시됩니다
 
 // 인포윈도우를 생성합니다
 var infowindow = new kakao.maps.InfoWindow({
-    position : iwPosition, 
+    position : marker, 
     content : iwContent,
     removable : iwRemoveable
 });
