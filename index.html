@@ -11,62 +11,69 @@
 
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=d502ef8977e585cc483511208b13312e"></script>
 <script>
-var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
-    mapOption = { 
-        center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
-        level: 3 // 지도의 확대 레벨
-    };
-
-// 지도를 표시할 div와  지도 옵션으로  지도를 생성합니다
-var map = new kakao.maps.Map(mapContainer, mapOption); 
-
-var markerPos = new kakao.maps.Map(mapContainer, mapOption);
-var marker = new kakao.maps.Marker({
-    position: markerPos,
-    clickable: true
-});
-var marker2 = new kakao.maps.Marker({
-    position: map.getCenter(),
-    clickable: true
-});
-function setCenter(lat,lng){
-    marker.setMap(null);
-    var mp = new kakao.maps.LatLng(lat,lng);
-    map.setCenter(mp);
-    marker = new kakao.maps.Marker({position:mp});
-    marker.setMap(map);
-}
-var iwContent = '<div style="padding:5px;">Hello World!</div>',
-    iwRemoveable = true; // removeable 속성을 ture 로 설정하면 인포윈도우를 닫을 수 있는 x버튼이 표시됩니다
-
-// 인포윈도우를 생성합니다
-var infowindow = new kakao.maps.InfoWindow({
-    content : iwContent,
-    removable : iwRemoveable
-});
-
-// 마커에 클릭이벤트를 등록합니다
-kakao.maps.event.addListener(marker, 'click', function() {
-      // 마커 위에 인포윈도우를 표시합니다
-      infowindow.open(map, marker);  
-});
-
-kakao.maps.event.addListener(map, 'click', function(mouseEvent) {        
-
-    // 클릭한 위도, 경도 정보를 가져옵니다 
-    var latlng = mouseEvent.latLng; 
+    var mapContainer = document.getElementById('map'), 
+        mapOption = {
+            center: new kakao.maps.LatLng(33.450701, 126.570667), 
+            level: 3 
+        };
     
-    // 마커 위치를 클릭한 위치로 옮깁니다
-    marker2.setPosition(latlng);
-    
-    var message = '클릭한 위치의 위도는 ' + latlng.getLat() + ' 이고, ';
-    message += '경도는 ' + latlng.getLng() + ' 입니다';
-    
-    var resultDiv = document.getElementById('clickLatlng'); 
-    resultDiv.innerHTML = message;
-    
-});
+    var map = new kakao.maps.Map(mapContainer, mapOption);
 
+    var geocoder = new kakao.maps.services.Geocoder();
+    var markers = [];
+
+    function searchPlaces() {
+        var keyword = document.getElementById('keyword').value;
+        if (!keyword.trim()) {
+            alert('키워드를 입력해주세요!');
+            return false;
+        }
+
+        var ps = new kakao.maps.services.Places(); 
+        ps.keywordSearch(keyword, placesSearchCB); 
+    }
+
+    function placesSearchCB(data, status, pagination) {
+        if (status === kakao.maps.services.Status.OK) {
+            var bounds = new kakao.maps.LatLngBounds();
+
+            for (var i = 0; i < data.length; i++) {
+                displayMarker(data[i]);    
+                bounds.extend(new kakao.maps.LatLng(data[i].y, data[i].x));
+            }       
+
+            map.setBounds(bounds);
+        } 
+    }
+
+    function displayMarker(place) {
+        var marker = new kakao.maps.Marker({
+            map: map,
+            position: new kakao.maps.LatLng(place.y, place.x) 
+        });
+
+        kakao.maps.event.addListener(marker, 'click', function() {
+            registerComplaint(place);
+        });
+
+        markers.push(marker);
+    }
+
+    function registerComplaint(place) {
+        alert('민원 접수 위치: ' + place.place_name);
+    }
+
+    kakao.maps.event.addListener(map, 'click', function(mouseEvent) {
+        var latlng = mouseEvent.latLng;
+
+        var marker = new kakao.maps.Marker({
+            position: latlng,
+            map: map
+        });
+
+        markers.push(marker);
+        registerComplaint({ place_name: '지정된 위치', y: latlng.getLat(), x: latlng.getLng() });
+    });
 </script>
 </body>
 </html>
