@@ -3,11 +3,17 @@
 <head>
     <meta charset="utf-8">
     <title>지도 생성하기</title>
-    
+	<style>
+        #map { width: 100%; height: 1000px; }
+        .infowindow-content { position: relative; }
+        .infowindow-close { position: absolute; top: 5px; right: 5px; cursor: pointer; }
+        .infowindow-register { margin-top: 10px; text-align: center; }
+    </style>
+
 </head>
 <body>
 <!-- 지도를 표시할 div 입니다 -->
-<div id="map" style="width:100%;height:1000px;"></div>
+<div id="map" ></div>
 
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=d502ef8977e585cc483511208b13312e&libraries=services"></script>
 <script>
@@ -21,6 +27,8 @@
 
     var geocoder = new kakao.maps.services.Geocoder();
     var markers = [];
+	var currentInfoWindow = null;
+
 
     function searchPlaces() {
         var keyword = document.getElementById('keyword').value;
@@ -53,20 +61,45 @@
         });
 		
 		var infowindow = new kakao.maps.InfoWindow({
-			content: '<div style="padding:5px;">' + place.place_name + '</div>'
+			content: '<div class="infowindow-content">' +
+				  '<table border="1" width="150px" height="200" cellspacing="5">' +
+				  '<caption>민원 맵</caption>' +
+				  '<tbody>' +
+				  '<tr align="center" bgcolor="white"><th>내용</th><td>100원</td></tr>' +
+				  '<tr align="center" bgcolor="white"><th>지역</th><td>100원</td></tr>' +
+				  '<tr align="center" bgcolor="white"><th>날짜</th><td>100원</td></tr>' +
+				  '<tr align="center" bgcolor="white"><th>상태</th><td>100원</td></tr>' +
+				  '</tbody></table>' +
+				  '<div class="infowindow-close" onclick="closeInfoWindow()">X</div>' +
+				  '<div class="infowindow-register"><button onclick="registerComplaint(\'' + place.place_name + '\')">민원 등록</button></div>' +
+				  '</div>';
 		});
 
 
         kakao.maps.event.addListener(marker, 'click', function() {
+			if (currentInfoWindow) {
+				currentInfoWindow.close();
+			}
+
 			infowindow.open(map, marker);
-            registerComplaint(place);
+			currentInfoWindow = infowindow;
+         //   registerComplaint(place);
         });
 
         markers.push(marker);
     }
 
+
+	function closeInfoWindow() {
+		if (currentInfoWindow) {
+			currentInfoWindow.close();
+			currentInfoWindow = null;
+		}
+	}
+
     function registerComplaint(place) {
-        alert('민원 접수 위치: ' + place.place_name);
+		alert('민원이 등록되었습니다: ' + placeName);
+		closeInfoWindow();
     }
 
     kakao.maps.event.addListener(map, 'click', function(mouseEvent) {
@@ -82,8 +115,14 @@
 		});
 
 		kakao.maps.event.addListener(marker, 'click', function() {
+			if (currentInfoWindow) {
+				currentInfoWindow.close();
+			}	
+
 			infowindow.open(map, marker);
-			registerComplaint({ place_name: '지정된 위치', y: latlng.getLat(), x: latlng.getLng() });
+			currentInfoWindow = infowindow;
+
+			//registerComplaint({ place_name: '지정된 위치', y: latlng.getLat(), x: latlng.getLng() });
 		});
 
         markers.push(marker);
