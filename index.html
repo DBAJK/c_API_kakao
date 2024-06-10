@@ -78,32 +78,7 @@
         });
 		
 		var infowindow = new kakao.maps.InfoWindow({
-			content: '<div>
-						<table border="1"
-						width="150px"
-						height="200"
-						cellspacing="5">
-							<caption>민원 맵</caption>
-							<tbody>
-								<tr align="center" bgcolor="white">
-									<th>내용</th>
-									<td>100원</td>
-								</tr>
-								<tr align="center" bgcolor="white">
-									<th>지역</th>
-									<td>100원</td>
-								</tr>
-								<tr align="center" bgcolor="white">
-									<th>날짜</th>
-									<td>100원</td>
-								</tr>
-								<tr align="center" bgcolor="white">
-									<th>상태</th>
-									<td>100원</td>
-								</tr>
-							</tbody>
-						</table>
-					</div>'
+			content: '<div><table border="1" width="150px" height="200" cellspacing="5"><caption>민원 맵</caption><tbody><tr align="center" bgcolor="white"><th>내용</th><td>100원</td></tr><tr align="center" bgcolor="white"><th>지역</th><td>100원</td></tr><tr align="center" bgcolor="white"><th>날짜</th><td>100원</td></tr><tr align="center" bgcolor="white"><th>상태</th><td>100원</td></tr></tbody></table></div>'
 		});
 
 		kakao.maps.event.addListener(marker, 'click', function() {
