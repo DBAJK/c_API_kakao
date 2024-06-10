@@ -8,6 +8,8 @@
         .infowindow-content { position: relative; }
         .infowindow-close { position: absolute; top: 5px; right: 5px; cursor: pointer; }
         .infowindow-register { margin-top: 10px; text-align: center; }
+		.infowindow-buttons { text-align: center; margin-top: 10px; }
+        .infowindow-button { margin: 5px; }
     </style>
 
 </head>
@@ -62,17 +64,19 @@
 		
 		var infowindow = new kakao.maps.InfoWindow({
 			content: '<div class="infowindow-content">' +
-				  '<table border="1" width="150px" height="200" cellspacing="5">' +
-				  '<caption>민원 맵</caption>' +
-				  '<tbody>' +
-				  '<tr align="center" bgcolor="white"><th>내용</th><td>100원</td></tr>' +
-				  '<tr align="center" bgcolor="white"><th>지역</th><td>100원</td></tr>' +
-				  '<tr align="center" bgcolor="white"><th>날짜</th><td>100원</td></tr>' +
-				  '<tr align="center" bgcolor="white"><th>상태</th><td>100원</td></tr>' +
-				  '</tbody></table>' +
-				  '<div class="infowindow-close" onclick="closeInfoWindow()">X</div>' +
-				  '<div class="infowindow-register"><button onclick="registerComplaint(\'' + place.place_name + '\')">민원 등록</button></div>' +
-				  '</div>'
+					  '<table border="1" width="150px" height="200" cellspacing="5">' +
+					  '<caption>민원 맵</caption>' +
+					  '<tbody>' +
+					  '<tr align="center" bgcolor="white"><th>내용</th><td>100원</td></tr>' +
+					  '<tr align="center" bgcolor="white"><th>지역</th><td>100원</td></tr>' +
+					  '<tr align="center" bgcolor="white"><th>날짜</th><td>100원</td></tr>' +
+					  '<tr align="center" bgcolor="white"><th>상태</th><td>100원</td></tr>' +
+					  '</tbody></table>' +
+					  '<div class="infowindow-buttons">' +
+					  '<button class="infowindow-button" onclick="closeInfoWindow()">닫기</button>' +
+					  '<button class="infowindow-button" onclick="registerComplaint(\'' + place.place_name + '\')">민원 등록</button>' +
+					  '</div>' +
+					  '</div>'
 		});
 
 
@@ -111,7 +115,20 @@
         });
 		
 		var infowindow = new kakao.maps.InfoWindow({
-			content: '<div><table border="1" width="150px" height="200" cellspacing="5"><caption>민원 맵</caption><tbody><tr align="center" bgcolor="white"><th>내용</th><td>100원</td></tr><tr align="center" bgcolor="white"><th>지역</th><td>100원</td></tr><tr align="center" bgcolor="white"><th>날짜</th><td>100원</td></tr><tr align="center" bgcolor="white"><th>상태</th><td>100원</td></tr></tbody></table></div>'
+			content: '<div class="infowindow-content">' +
+					  '<table border="1" width="150px" height="200" cellspacing="5">' +
+					  '<caption>민원 맵</caption>' +
+					  '<tbody>' +
+					  '<tr align="center" bgcolor="white"><th>내용</th><td>100원</td></tr>' +
+					  '<tr align="center" bgcolor="white"><th>지역</th><td>100원</td></tr>' +
+					  '<tr align="center" bgcolor="white"><th>날짜</th><td>100원</td></tr>' +
+					  '<tr align="center" bgcolor="white"><th>상태</th><td>100원</td></tr>' +
+					  '</tbody></table>' +
+					  '<div class="infowindow-buttons">' +
+					  '<button class="infowindow-button" onclick="closeInfoWindow()">닫기</button>' +
+					  '<button class="infowindow-button" onclick="registerComplaint(\'지정된 위치\')">민원 등록</button>' +
+					  '</div>' +
+					  '</div>'
 		});
 
 		kakao.maps.event.addListener(marker, 'click', function() {
