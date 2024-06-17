@@ -29,13 +29,22 @@
 
     var geocoder = new kakao.maps.services.Geocoder();
     var markers = [];
-	var currentInfoWindow = null;
+    var currentInfoWindow = null;
+	
     function setCenter(lat,lng){
-	    marker.setMap(null);
+	    var container = document.getElementById('map');
+	    var options = {
+            	center: new kakao.maps.LatLng(33.450701, 126.570667), 
+            	level: 3 
+        	};
+	    var markerPosition2 = new kakao.maps.LatLng(33.450701, 126.570667);
+	    var marker2 = new kakao.maps.Marker({position:markerPosition2});
+	    var map2 = new kakao.maps.Map(container,options);
+	    marker2.setMap(null);
 	    var mp= new kakao.maps.LatLng(lat,lng);
-	    map.setCenter(mp);
-	    marker = new kakao.maps.Marker({position:mp});
-	    marker.setMap(map);
+	    map2.setCenter(mp);
+	    marker2 = new kakao.maps.Marker({position:mp});
+	    marker2.setMap(map2);
     }
 
     function searchPlaces() {
