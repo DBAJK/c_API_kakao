@@ -130,8 +130,9 @@
 		}
 	}
 
-    function registerComplaint(place) {
-		alert('민원이 등록되었습니다: ' + place);
+    function registerComplaint() {
+		alert('민원이 등록되었습니다: ' + );
+	    	window.external.notify('registerComplaintClick');
 		closeInfoWindow();
     }
 
