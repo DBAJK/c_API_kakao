@@ -41,12 +41,11 @@
 
         var infowindow = new kakao.maps.InfoWindow({
             content: '<div class="infowindow-content">' +
-                      '<table border="1" width="150px" height="200" cellspacing="5">' +
+                      '<table border="1" width="50px" height="70" cellspacing="5">' +
                       '<caption>민원 맵</caption>' +
                       '</table>' +
                       '<div class="infowindow-buttons">' +
                       '<button class="infowindow-button" onclick="closeInfoWindow()">닫기</button>' +
-                      '<button class="infowindow-button" onclick="registerComplaint()">민원 등록</button>' +
                       '</div>' +
                       '</div>'
         });
@@ -105,7 +104,6 @@
 					  '</tbody></table>' +
 					  '<div class="infowindow-buttons">' +
 					  '<button class="infowindow-button" onclick="closeInfoWindow()">닫기</button>' +
-					  '<button class="infowindow-button" onclick="registerComplaint()">민원 등록</button>' +
 					  '</div>' +
 					  '</div>'
 		});
@@ -130,12 +128,6 @@
 		}
 	}
 
-    function registerComplaint() {
-		alert('민원이 등록되었습니다: ');
-	    	window.external.notify('registerComplaintClick');
-		closeInfoWindow();
-    }
-
     kakao.maps.event.addListener(map, 'click', function(mouseEvent) {
         var latlng = mouseEvent.latLng;
 
@@ -156,7 +148,6 @@
 					  '</tbody></table>' +
 					  '<div class="infowindow-buttons">' +
 					  '<button class="infowindow-button" onclick="closeInfoWindow()">닫기</button>' +
-					  '<button class="infowindow-button" onclick="registerComplaint()">민원 등록</button>' +
 					  '</div>' +
 					  '</div>'
 		});
