@@ -30,21 +30,17 @@
     var geocoder = new kakao.maps.services.Geocoder();
     var markers = [];
     var currentInfoWindow = null;
-	
-    function setCenter(lat,lng){
-	    var container = document.getElementById('map');
-	    var options = {
-            	center: new kakao.maps.LatLng(33.450701, 126.570667), 
-            	level: 3 
-        	};
-	    var markerPosition2 = new kakao.maps.LatLng(33.450701, 126.570667);
-	    var marker2 = new kakao.maps.Marker({position:markerPosition2});
-	    var map2 = new kakao.maps.Map(container,options);
-	    marker2.setMap(null);
-	    var mp= new kakao.maps.LatLng(lat,lng);
-	    map2.setCenter(mp);
-	    marker2 = new kakao.maps.Marker({position:mp});
-	    marker2.setMap(map2);
+
+    function setCenter(lat, lng) {
+        var mp = new kakao.maps.LatLng(lat, lng);
+        map.setCenter(mp);
+        
+        var marker = new kakao.maps.Marker({
+            position: mp,
+            map: map
+        });
+
+        markers.push(marker);
     }
 
     function searchPlaces() {
@@ -102,12 +98,10 @@
 
 			infowindow.open(map, marker);
 			currentInfoWindow = infowindow;
-         //   registerComplaint(place);
         });
 
         markers.push(marker);
     }
-
 
 	function closeInfoWindow() {
 		if (currentInfoWindow) {
@@ -117,7 +111,7 @@
 	}
 
     function registerComplaint(place) {
-		alert('민원이 등록되었습니다: ' + placeName);
+		alert('민원이 등록되었습니다: ' + place);
 		closeInfoWindow();
     }
 
@@ -153,8 +147,6 @@
 
 			infowindow.open(map, marker);
 			currentInfoWindow = infowindow;
-
-			//registerComplaint({ place_name: '지정된 위치', y: latlng.getLat(), x: latlng.getLng() });
 		});
 
         markers.push(marker);
