@@ -11,11 +11,10 @@
 		.infowindow-buttons { text-align: center; margin-top: 10px; }
         .infowindow-button { margin: 5px; }
     </style>
-
 </head>
 <body>
 <!-- 지도를 표시할 div 입니다 -->
-<div id="map" ></div>
+<div id="map"></div>
 
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=d502ef8977e585cc483511208b13312e&libraries=services"></script>
 <script>
@@ -34,10 +33,31 @@
     function setCenter(lat, lng) {
         var mp = new kakao.maps.LatLng(lat, lng);
         map.setCenter(mp);
-        
+
         var marker = new kakao.maps.Marker({
             position: mp,
             map: map
+        });
+
+        var infowindow = new kakao.maps.InfoWindow({
+            content: '<div class="infowindow-content">' +
+                      '<table border="1" width="150px" height="200" cellspacing="5">' +
+                      '<caption>민원 맵</caption>' +
+                      '</table>' +
+                      '<div class="infowindow-buttons">' +
+                      '<button class="infowindow-button" onclick="closeInfoWindow()">닫기</button>' +
+                      '<button class="infowindow-button" onclick="registerComplaint()">민원 등록</button>' +
+                      '</div>' +
+                      '</div>'
+        });
+
+        kakao.maps.event.addListener(marker, 'click', function() {
+            if (currentInfoWindow) {
+                currentInfoWindow.close();
+            }
+
+            infowindow.open(map, marker);
+            currentInfoWindow = infowindow;
         });
 
         markers.push(marker);
@@ -85,7 +105,7 @@
 					  '</tbody></table>' +
 					  '<div class="infowindow-buttons">' +
 					  '<button class="infowindow-button" onclick="closeInfoWindow()">닫기</button>' +
-					  '<button class="infowindow-button" onclick="registerComplaint(\'' + place.place_name + '\')">민원 등록</button>' +
+					  '<button class="infowindow-button" onclick="registerComplaint()">민원 등록</button>' +
 					  '</div>' +
 					  '</div>'
 		});
@@ -135,7 +155,7 @@
 					  '</tbody></table>' +
 					  '<div class="infowindow-buttons">' +
 					  '<button class="infowindow-button" onclick="closeInfoWindow()">닫기</button>' +
-					  '<button class="infowindow-button" onclick="registerComplaint(\'지정된 위치\')">민원 등록</button>' +
+					  '<button class="infowindow-button" onclick="registerComplaint()">민원 등록</button>' +
 					  '</div>' +
 					  '</div>'
 		});
