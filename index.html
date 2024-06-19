@@ -56,6 +56,14 @@
         markers.push(marker);
     }
 
+    function closeInfoWindow() {
+        if (currentInfoWindow) {
+            currentInfoWindow.close();
+            currentInfoWindow = null;
+        }
+    }
+
+/*
     kakao.maps.event.addListener(map, 'click', function(mouseEvent) {
         var latlng = mouseEvent.latLng;
 
@@ -84,12 +92,6 @@
         markers.push(marker);
     });
 
-    function closeInfoWindow() {
-        if (currentInfoWindow) {
-            currentInfoWindow.close();
-            currentInfoWindow = null;
-        }
-    }
 
     function getLatLng(marker) {
         var position = marker.getPosition();
@@ -97,7 +99,7 @@
         var lng = position.getLng();
         alert("Lat: " + lat + ", Lng: " + lng);
         // 여기에서 C#의 메서드 호출 (예: window.external.callCSharpMethod(lat, lng);)
-    }
+    }*/
 
 </script>
 </body>
