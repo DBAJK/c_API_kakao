@@ -25,8 +25,6 @@
         };
     
     var map = new kakao.maps.Map(mapContainer, mapOption);
-
-    var geocoder = new kakao.maps.services.Geocoder();
     var markers = [];
     var currentInfoWindow = null;
 
@@ -58,72 +56,6 @@
         markers.push(marker);
     }
 
-    function searchPlaces() {
-        var keyword = document.getElementById('keyword').value;
-        if (!keyword.trim()) {
-            alert('키워드를 입력해주세요!');
-            return false;
-        }
-
-        var ps = new kakao.maps.services.Places(); 
-        ps.keywordSearch(keyword, placesSearchCB); 
-    }
-
-    function placesSearchCB(data, status, pagination) {
-        if (status === kakao.maps.services.Status.OK) {
-            var bounds = new kakao.maps.LatLngBounds();
-
-            for (var i = 0; i < data.length; i++) {
-                displayMarker(data[i]);    
-                bounds.extend(new kakao.maps.LatLng(data[i].y, data[i].x));
-            }       
-
-            map.setBounds(bounds);
-        } 
-    }
-
-    function displayMarker(place) {
-        var marker = new kakao.maps.Marker({
-            map: map,
-            position: new kakao.maps.LatLng(place.y, place.x) 
-        });
-		
-		var infowindow = new kakao.maps.InfoWindow({
-			content: '<div class="infowindow-content">' +
-					  '<table border="1" width="150px" height="200" cellspacing="5">' +
-					  '<caption>민원 맵</caption>' +
-					  '<tbody>' +
-					  '<tr align="center" bgcolor="white"><th>내용</th><td>100원</td></tr>' +
-					  '<tr align="center" bgcolor="white"><th>지역</th><td>100원</td></tr>' +
-					  '<tr align="center" bgcolor="white"><th>날짜</th><td>100원</td></tr>' +
-					  '<tr align="center" bgcolor="white"><th>상태</th><td>100원</td></tr>' +
-					  '</tbody></table>' +
-					  '<div class="infowindow-buttons">' +
-					  '<button class="infowindow-button" onclick="closeInfoWindow()">닫기</button>' +
-					  '</div>' +
-					  '</div>'
-		});
-
-
-        kakao.maps.event.addListener(marker, 'click', function() {
-			if (currentInfoWindow) {
-				currentInfoWindow.close();
-			}
-
-			infowindow.open(map, marker);
-			currentInfoWindow = infowindow;
-        });
-
-        markers.push(marker);
-    }
-
-	function closeInfoWindow() {
-		if (currentInfoWindow) {
-			currentInfoWindow.close();
-			currentInfoWindow = null;
-		}
-	}
-
     kakao.maps.event.addListener(map, 'click', function(mouseEvent) {
         var latlng = mouseEvent.latLng;
 
@@ -134,18 +66,9 @@
 		
 		var infowindow = new kakao.maps.InfoWindow({
 			content: '<div class="infowindow-content">' +
-					  '<table border="1" width="150px" height="200" cellspacing="5">' +
-					  '<caption>민원 맵</caption>' +
-					  '<tbody>' +
-					  '<tr align="center" bgcolor="white"><th>내용</th><td>100원</td></tr>' +
-					  '<tr align="center" bgcolor="white"><th>지역</th><td>100원</td></tr>' +
-					  '<tr align="center" bgcolor="white"><th>날짜</th><td>100원</td></tr>' +
-					  '<tr align="center" bgcolor="white"><th>상태</th><td>100원</td></tr>' +
-					  '</tbody></table>' +
-					  '<div class="infowindow-buttons">' +
-					  '<button class="infowindow-button" onclick="closeInfoWindow()">닫기</button>' +
-					  '</div>' +
-					  '</div>'
+                      '<caption>민원 맵</caption>' +
+                      '<button class="infowindow-button" onclick="closeInfoWindow()">닫기</button>' +
+                      '</div>'
 		});
 
 		kakao.maps.event.addListener(marker, 'click', function() {
@@ -155,10 +78,26 @@
 
 			infowindow.open(map, marker);
 			currentInfoWindow = infowindow;
+            getLatLng(marker);
 		});
 
         markers.push(marker);
     });
+
+    function closeInfoWindow() {
+        if (currentInfoWindow) {
+            currentInfoWindow.close();
+            currentInfoWindow = null;
+        }
+    }
+
+    function getLatLng(marker) {
+        var position = marker.getPosition();
+        var lat = position.getLat();
+        var lng = position.getLng();
+        alert("Lat: " + lat + ", Lng: " + lng);
+        // 여기에서 C#의 메서드 호출 (예: window.external.callCSharpMethod(lat, lng);)
+    }
 
 </script>
 </body>
